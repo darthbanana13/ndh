@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -10,6 +11,11 @@ import (
 )
 
 var cfgFile string
+
+type npmPackage struct {
+	Name			string				`json:"name"`
+	Dependencies	map[string]string	`json:"dependencies"`
+}
 
 var rootCmd = &cobra.Command{
 	Use:   "ndh",
@@ -21,7 +27,9 @@ var rootCmd = &cobra.Command{
 		//TODO: Handle errors
 		resp, _ := http.Get("https://registry.npmjs.org/" + pkgName + "/" + pkgVer)
 		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Println(string(body))
+		var pak npmPackage
+		_ = json.Unmarshal(body, &pak)
+		fmt.Println(pak)
 		return nil
 	},
 }
