@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/darthrevan13/ndh/pkg/npmPkg"
+	"github.com/darthrevan13/ndh/pkg/pkgManager"
 
 )
 
@@ -23,11 +23,11 @@ var rootCmd = &cobra.Command{
 	RunE: func(_ *cobra.Command, args []string) error {
 		pkgName := args[0]
 		pkgVer := args[1]
-		pkg, err := npmPkg.GetDependencies(pkgName, pkgVer)
+		dep, err := pkgManager.GetAllDependencies(pkgName, pkgVer)
 		if err != nil {
 			return err
 		}
-		fmt.Println(pkg)
+		fmt.Println(dep)
 		return nil
 	},
 }
