@@ -23,9 +23,11 @@ func GetAllDependencies(name, ver string) (map[string]string, error) {
 
 	for i := 0; i < len(pkgsToProcess); i++ {
 		curPkg := pkgsToProcess[i]
-		fmt.Println(curPkg.Name)
-		//TODO: Handle errors
-		p, _ := npmPkg.GetDependencies(curPkg.Name, curPkg.Version)
+		p, err := npmPkg.GetDependencies(curPkg.Name, curPkg.Version)
+		if err != nil {
+			//TODO: Make errors non blocking, handle in separate chanel with concurrency
+			return map[string]string{}, err
+		}
 		unprocessed := refreshDependencies(flatDependencies, p.Dependencies)
 		pkgsToProcess = append(pkgsToProcess, unprocessed...)
 	}

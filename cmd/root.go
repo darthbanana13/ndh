@@ -9,13 +9,6 @@ import (
 
 )
 
-var cfgFile string
-
-type npmPackage struct {
-	Name			string				`json:"name"`
-	Dependencies	map[string]string	`json:"dependencies"`
-}
-
 var rootCmd = &cobra.Command{
 	Use:   "ndh",
 	Short: "Get hierarchical dependencies for node packages",
