@@ -1,13 +1,12 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/darthrevan13/ndh/pkg/npmPkg"
+
 )
 
 var cfgFile string
@@ -24,12 +23,11 @@ var rootCmd = &cobra.Command{
 	RunE: func(_ *cobra.Command, args []string) error {
 		pkgName := args[0]
 		pkgVer := args[1]
-		//TODO: Handle errors
-		resp, _ := http.Get("https://registry.npmjs.org/" + pkgName + "/" + pkgVer)
-		body, _ := ioutil.ReadAll(resp.Body)
-		var pak npmPackage
-		_ = json.Unmarshal(body, &pak)
-		fmt.Println(pak)
+		pkg, err := npmPkg.GetDependencies(pkgName, pkgVer)
+		if err != nil {
+			return err
+		}
+		fmt.Println(pkg)
 		return nil
 	},
 }
