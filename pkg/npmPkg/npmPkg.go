@@ -2,15 +2,15 @@ package npmPkg
 
 import (
 	"encoding/json"
-	"net/http"
 	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
 type Pkg struct {
-	Name			string				`json:"name"`
-	Version			string				`json:"version"`
-	Dependencies	map[string]string	`json:"dependencies"`
+	Name         string            `json:"name"`
+	Version      string            `json:"version"`
+	Dependencies map[string]string `json:"dependencies"`
 }
 
 const endpoint = "https://registry.npmjs.org"

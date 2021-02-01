@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/spf13/cobra"
 	"github.com/darthrevan13/ndh/pkg/pkgManager"
-
+	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "ndh",
 	Short: "Get hierarchical dependencies for node packages",
-	Long: "Given a node package name show hierarchical/tree dependencies of the package",
+	Long:  "Given a node package name show hierarchical/tree dependencies of the package",
 	RunE: func(_ *cobra.Command, args []string) error {
 		pkgName := args[0]
 		pkgVer := args[1]
@@ -20,7 +19,11 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		fmt.Println(dep)
+		tree, err := dep.ToJson()
+		if err != nil {
+			return err
+		}
+		fmt.Println(tree)
 		return nil
 	},
 }
